@@ -6,9 +6,15 @@ from .views.booth import BoothViewSet, BoothEventViewSet, RatingViewSet, Contest
 from .views.content import BoothResourceViewSet, PhotoSubmissionViewSet, PhotoSubmissionAuditViewSet
 from .views.login import LoginAPIView
 from .views.register import RegisterAPIView
+from .views.account import CurrentUserAPIView
+
 
 
 router = routers.DefaultRouter()
+# Booth must be registered before nested router
+router.register(r'booths', BoothViewSet, basename='booths')
+
+# Nested routers for booth
 booth_router = nested_routers.NestedDefaultRouter(router, r'booths', lookup='booth')
 booth_router.register(r'events', BoothEventViewSet, basename='booth-events')
 booth_router.register(r'ratings', RatingViewSet, basename='booth-ratings')
@@ -20,16 +26,11 @@ router.register(r'users', UserViewSet)
 router.register(r'student-profiles', StudentProfileViewSet)
 router.register(r'booth-manager-profiles', BoothManagerProfileViewSet)
 
-# Booth
-router.register(r'booths', BoothViewSet)
-# router.register(r'booth-events', BoothEventViewSet)
-# router.register(r'ratings', RatingViewSet)
+# Other Booth endpoints
 router.register(r'contest-settings', ContestSettingViewSet)
 router.register(r'contest-winners', ContestWinnerViewSet)
 
 # Content
-# router.register(r'booth-resources', BoothResourceViewSet)
-# router.register(r'photo-submissions', PhotoSubmissionViewSet)
 router.register(r'photo-submission-audits', PhotoSubmissionAuditViewSet)
 
 urlpatterns = router.urls + booth_router.urls
@@ -37,6 +38,7 @@ urlpatterns = router.urls + booth_router.urls
 # Login endpoint
 from django.urls import path
 urlpatterns += [
-	path('login/', LoginAPIView.as_view(), name='login'),
-	path('register/', RegisterAPIView.as_view(), name='register'),
+	path('auth/login/', LoginAPIView.as_view(), name='login'),
+	path('auth/register/', RegisterAPIView.as_view(), name='register'),
+    path('auth/me/', CurrentUserAPIView.as_view(), name='current-user'),
 ]
