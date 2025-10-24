@@ -90,12 +90,12 @@ AUTH_USER_MODEL = 'core.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eventmap_db',
-        'USER': 'eventmap_user',
-        'PASSWORD': 'abul1385',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': config('DEFAULT_DB_ENGINE', cast=str),
+        'NAME': config('DEFAULT_DB_NAME', cast=str),
+        'USER': config('DEFAULT_DB_USER', cast=str),
+        'PASSWORD': config('DEFAULT_DB_PASSWORD', cast=str),
+        'HOST': config('DEFAULT_DB_HOST', cast=str),
+        'PORT': config('DEFAULT_DB_PORT', cast=str),
     }
 }
 
