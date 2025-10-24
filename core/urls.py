@@ -14,9 +14,9 @@ router = routers.DefaultRouter()
 # Booth must be registered before nested router
 router.register(r'booths', BoothViewSet, basename='booths')
 
-router.register(r'events', BoothEventViewSet, basename='booth-events')
 # Nested routers for booth
 booth_router = nested_routers.NestedDefaultRouter(router, r'booths', lookup='booth')
+booth_router.register(r'events', BoothEventViewSet, basename='booth-events')
 booth_router.register(r'ratings', RatingViewSet, basename='booth-ratings')
 booth_router.register(r'resources', BoothResourceViewSet, basename='booth-resources')
 booth_router.register(r'photos', PhotoSubmissionViewSet, basename='booth-photos')
