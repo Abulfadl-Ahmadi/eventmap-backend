@@ -12,11 +12,13 @@ class User(AbstractUser):
 
 	# first_name = models.CharField(max_length=150, blank=True)
 	# last_name = models.CharField(max_length=150, blank=True)
+	email = models.EmailField(unique=True, blank=False)
 	role = models.CharField(max_length=20, choices=Roles.choices, default=Roles.STUDENT)
 	phone_number = models.CharField(max_length=20, blank=True, null=True)
 	national_id = models.CharField(max_length=20, blank=True, null=True, unique=True)
 
-	REQUIRED_FIELDS = ['email', 'role']
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = ['role']
 
 	def is_student(self):
 		return self.role == self.Roles.STUDENT
