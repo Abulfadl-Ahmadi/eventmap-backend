@@ -17,7 +17,7 @@ class Booth(models.Model):
     
     
 class BoothEvent(models.Model):
-    booth = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='events')
+    booth_id = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='events')
     event_name = models.TextField()
     event_description = models.TextField(blank=True, null=True)
     start_time = models.DateTimeField()
@@ -35,7 +35,7 @@ class BoothEvent(models.Model):
     
 
 class Rating(models.Model):
-    booth = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='ratings')
+    booth_id = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='ratings')
     student_number = models.CharField(max_length=64)
     rating = models.IntegerField()
     comment = models.TextField(blank=True, null=True)
@@ -57,7 +57,7 @@ class ContestSetting(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     max_photos_per_student = models.IntegerField(default=3)
-    max_photos_per_booth = models.IntegerField(default=100)
+    max_photos_per_booth_id = models.IntegerField(default=100)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -76,7 +76,7 @@ class ContestWinner(models.Model):
     ]
 
     winner_type = models.CharField(max_length=20, choices=WINNER_TYPES)
-    booth = models.ForeignKey(Booth, on_delete=models.SET_NULL, null=True, blank=True)
+    booth_id = models.ForeignKey(Booth, on_delete=models.SET_NULL, null=True, blank=True)
     student_number = models.CharField(max_length=64, blank=True, null=True)
     photo_submission = models.ForeignKey('PhotoSubmission', on_delete=models.SET_NULL, null=True, blank=True)
     position = models.IntegerField()
